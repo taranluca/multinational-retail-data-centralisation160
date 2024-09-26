@@ -101,9 +101,11 @@ class DataCleaning:
                 if weight_as_float < 10:
                     weight_as_float = weight_as_float / 1000
                     weight_in_kg = f"{weight_as_float:.5f}"
+                    weight_in_kg = str(weight_in_kg)
                 else:
                     weight_in_kg = weight_as_float / 1000
-                weight_with_quantity = (f"{weight[0]} x {weight_in_kg}")
+                weight_with_quantity = (f"{weight_in_kg} x {weight[0]} ")    
+                weight_with_quantity = str(weight_with_quantity)
                 return weight_with_quantity
             elif "ml" in weight:
                 weight = str(weight)
@@ -112,14 +114,15 @@ class DataCleaning:
                 if weight_as_float < 10:
                     weight_as_float = weight_as_float / 1000
                     weight_in_kg = f"{weight_as_float:.5f}"
+                    weight_in_kg = str(weight_in_kg)
                 else:
                     weight_in_kg = weight_as_float / 1000
                 return weight_in_kg
             elif "kg" in weight:
                 weight = str(weight)
                 weight = weight.split("kg")
-                weight_as_float = weight[0]
-                return weight_as_float
+                weight = weight[0]
+                return weight
             elif "g" in weight:
                 weight = str(weight)
                 weight = weight.split("g")
@@ -127,13 +130,24 @@ class DataCleaning:
                 if weight_as_float < 10:
                     weight_as_float = weight_as_float / 1000
                     weight_in_kg = f"{weight_as_float:.5f}"
+                    weight_in_kg = str(weight_in_kg)
                 else:
                     weight_in_kg = weight_as_float / 1000
+                    weight_in_kg = str(weight_in_kg)
                 return weight_in_kg
             else:
                 return weight 
 
         cleaned_products_df['weight'] = cleaned_products_df['weight'].apply(lambda x: g_to_kg(x))
+        
+        cleaned_products_df[['new_weight','quantity']] = cleaned_products_df['weight'].str.split("x", expand=True)
+        cleaned_products_df['quantity'] = cleaned_products_df['quantity'].fillna(value=1)
+
+        cleaned_products_df = cleaned_products_df.drop('weight', axis=1)
+        cleaned_products_df = cleaned_products_df.rename(columns={'new_weight': 'weight'})
+
+        cleaned_products_df = cleaned_products_df[['Unnamed: 0','product_name','product_price','weight','quantity','category', 'EAN', 'date_added', 'uuid', 'removed', 'product_code']]  
+        
         cleaned_weight_normalised_products_df = cleaned_products_df
         return cleaned_weight_normalised_products_df
     
