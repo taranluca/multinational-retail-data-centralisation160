@@ -155,7 +155,12 @@ class DataCleaning:
         cleaned_products_df = cleaned_products_df.drop('weight', axis=1)
         cleaned_products_df = cleaned_products_df.rename(columns={'new_weight': 'weight'})
 
-        cleaned_products_df = cleaned_products_df[['Unnamed: 0','product_name','product_price','weight','quantity','category', 'EAN', 'date_added', 'uuid', 'removed', 'product_code']]  
+        cleaned_products_df['weight'] = cleaned_products_df['weight'].astype(float)
+        cleaned_products_df['quantity'] = cleaned_products_df['quantity'].astype(float)
+
+        cleaned_products_df['total_weight'] = cleaned_products_df['weight'] * cleaned_products_df['quantity']
+
+        cleaned_products_df = cleaned_products_df[['Unnamed: 0','product_name','product_price','weight','quantity','total_weight','category', 'EAN', 'date_added', 'uuid', 'removed', 'product_code']]  
         
         cleaned_weight_normalised_products_df = cleaned_products_df
         return cleaned_weight_normalised_products_df
