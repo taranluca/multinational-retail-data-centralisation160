@@ -117,6 +117,7 @@ class DataCleaning:
                     weight_in_kg = str(weight_in_kg)
                 else:
                     weight_in_kg = weight_as_float / 1000
+                weight_in_kg = str(weight_in_kg)
                 return weight_in_kg
             elif "kg" in weight:
                 weight = str(weight)
@@ -134,6 +135,14 @@ class DataCleaning:
                 else:
                     weight_in_kg = weight_as_float / 1000
                     weight_in_kg = str(weight_in_kg)
+                return weight_in_kg
+            elif "oz" in weight:
+                weight = str(weight)
+                weight = weight.split("oz")
+                weight_as_float =float(weight[0])
+                weight_in_kg = weight_as_float/35.274
+                weight_in_kg = f"{weight_in_kg:.5f}"
+                weight_in_kg = str(weight_in_kg)
                 return weight_in_kg
             else:
                 return weight 
