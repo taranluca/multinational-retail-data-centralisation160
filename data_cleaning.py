@@ -53,6 +53,9 @@ class DataCleaning:
         return cleaned_card_details
     
     def clean_store_data(self,store_details_df):
+        
+        store_details_df['staff_numbers'] = store_details_df['staff_numbers'].str.replace('\D', '', regex=True)
+        
         store_details_df["lat"] = np.nan
         store_details_df = store_details_df.dropna(axis=1, how='all') 
 
