@@ -46,6 +46,7 @@ class DataCleaning:
         filtered_providers_df = pdf_df_drop_nulls[providers_mask]
 
         filtered_providers_df['date_payment_confirmed'] = pd.to_datetime(filtered_providers_df['date_payment_confirmed'], format="mixed")
+        filtered_providers_df['card_number'] = filtered_providers_df['card_number'].str.extract('(\d+)', expand=False)
 
         cleaned_card_details = filtered_providers_df
         cleaned_card_details.head()
