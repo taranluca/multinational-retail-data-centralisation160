@@ -30,7 +30,7 @@ class DataExtractor:
             store_details_df = pd.read_csv(store_details_csv)
         else:
             print("Waiting for CSV to download")
-            stores_as_num = list(range(1,number_of_stores,1))
+            stores_as_num = list(range(0,number_of_stores,1))
             df_list = []
             for store_number in stores_as_num:
                 store_number = str(store_number)

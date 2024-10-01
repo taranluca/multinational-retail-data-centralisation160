@@ -57,6 +57,13 @@ class DataCleaning:
     
     def clean_store_data(self,store_details_df):
         
+        row_index = store_details_df.loc[store_details_df['store_code'] == 'WEB-1388012W'].index[0]
+        store_details_df.loc[row_index, 'address'] = 'online'
+        store_details_df.loc[row_index, 'longitude'] = 0.00
+        store_details_df.loc[row_index, 'lat'] = 'online'
+        store_details_df.loc[row_index, 'locality'] = 'online'
+        store_details_df.loc[row_index, 'latitude'] = 0.00
+        
         store_details_df['staff_numbers'] = store_details_df['staff_numbers'].str.replace('\D', '', regex=True)
         
         store_details_df["lat"] = np.nan
