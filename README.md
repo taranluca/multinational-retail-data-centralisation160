@@ -11,3 +11,4 @@ Data Cleaning is where all of the tables are collected, cleaned and then uploade
 Installation
 Download repo
 Run the Data_cleaning script
+Run each sql file individually taking away the comments from each each block of code
