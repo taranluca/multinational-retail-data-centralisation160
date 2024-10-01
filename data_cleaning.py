@@ -29,11 +29,13 @@ class DataCleaning:
         check_file = os.path.isfile("pdf_df.csv")
         if check_file == True:
             print("CSV found in local directory")
+            pdf_df = pd.read_csv("pdf_df.csv")
         else:
             print("Waiting for CSV to download")
-            tabula.convert_into(link, "pdf_df.csv", output_format="csv",pages='all', stream=True)
+            pdf_df = tabula.read_pdf(link, pages='all')
+            pdf_df = pd.concat(pdf_df)
+            pdf_df.to_csv("pdf_df.csv")
             print("CSV sucessfully loaded")
-        pdf_df = pd.read_csv("pdf_df.csv")
         return pdf_df       
     
     def clean_card_data(self,pdf_df ):
@@ -200,7 +202,7 @@ db_cleaner = DataCleaning()
 ###Clean user data
 legacy_users = db_extractor.init_create_table('legacy_users')
 cleaned_legacy_users = db_cleaner.clean_user_data(legacy_users)
-db_cleaner.upload_to_db(cleaned_legacy_users,'dim_users')
+#db_cleaner.upload_to_db(cleaned_legacy_users,'dim_users')
 
 
 ###Clean card data
@@ -217,21 +219,21 @@ number_of_stores = db_extractor.list_number_of_stores(API_header,API_endpoint_nu
 API_endpoint_store_details = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/"
 store_data = db_extractor.retrieve_stores_data(API_header,API_endpoint_store_details,number_of_stores)
 cleaned_store_data = db_cleaner.clean_store_data(store_data)
-db_cleaner.upload_to_db(cleaned_store_data,"dim_store_details")
+#db_cleaner.upload_to_db(cleaned_store_data,"dim_store_details")
 
 ###Clean product data
 s3_address = "s3://data-handling-public/products.csv"
 s3_extractor = db_extractor.extract_from_s3(s3_address)
 product_cleaner = db_cleaner.clean_product_data(s3_extractor)
 cleaned_convert_weights_product = db_cleaner.convert_product_weights(product_cleaner)
-db_cleaner.upload_to_db(cleaned_convert_weights_product,"dim_products")
+#db_cleaner.upload_to_db(cleaned_convert_weights_product,"dim_products")
 
 ###Clean orders table
 orders_table = db_extractor.init_create_table('orders_table')
 clean_orders = db_cleaner.clean_orders_data(orders_table)
-db_cleaner.upload_to_db(clean_orders,"orders_table")
+#db_cleaner.upload_to_db(clean_orders,"orders_table")
 
 ###Clean date details
 date_details = db_extractor.extract_date_details()
 clean_dates = db_cleaner.clean_date_details(date_details)
-db_cleaner.upload_to_db(clean_dates,"dim_date_times")
+#db_cleaner.upload_to_db(clean_dates,"dim_date_times")
