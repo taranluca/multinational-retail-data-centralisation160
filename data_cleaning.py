@@ -192,6 +192,7 @@ class DataCleaning:
         date_details_df = date_details_df[time_period_mask]
 
         date_details_df['month'] = pd.to_datetime(date_details_df['month'], format="%m").dt.month
+        date_details_df['month'] = date_details_df['month'].map("{:02}".format)
         date_details_df['year'] = pd.to_datetime(date_details_df['year'], format="%Y").dt.year
         date_details_df['day'] = pd.to_datetime(date_details_df['day'], format="%d").dt.day
         date_details_df['timestamp'] = pd.to_datetime(date_details_df['timestamp'], format="%H:%M:%S").dt.time 
