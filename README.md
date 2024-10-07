@@ -4,6 +4,8 @@
 
 ### 1. Python Cleaning
 This contains three Python scripts use to load, extract, clean and upload data into postgres
+There are also three CSV files. These are here to speed up the process of extraction so the raw datasets from AWS don't have to be downloaded everytime
+If you want to ensure all of the data is untouched delete these CSV files and then run the cleaning again which will then create new csv files with the same name
 
 #### Data Utils 
 Used to load in the yaml file and collect the table names present
